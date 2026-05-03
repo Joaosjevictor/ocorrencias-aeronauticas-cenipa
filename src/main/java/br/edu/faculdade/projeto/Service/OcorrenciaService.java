@@ -1,10 +1,15 @@
 package br.edu.faculdade.projeto.Service;
 
-import java.io.FileReader;
-import java.nio.charset.StandardCharsets;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.time.LocalDate; 
+import java.time.format.DateTimeFormatter;
+
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
 
 import br.edu.faculdade.projeto.dao.LocalidadeDao;
 import br.edu.faculdade.projeto.model.Localidade;
@@ -25,9 +30,13 @@ public class OcorrenciaService {
     }
 
     public void processarArquivoOcorrencia(String caminhoArquivo) {
+
+        CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
+
         try (org.hibernate.Session session = br.edu.faculdade.projeto.util.HibernateUtil.getSessionFactory().openSession();
-            CSVReader reader = new CSVReaderBuilder(new FileReader(caminhoArquivo, StandardCharsets.UTF_8))
+            CSVReader reader = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(caminhoArquivo), "ISO-8859-1"))
                 .withSkipLines(1)
+                .withCSVParser(parser)
                 .build()) {
 
             session.beginTransaction();
@@ -36,8 +45,12 @@ public class OcorrenciaService {
             while ((linha = reader.readNext()) != null) {
                 
                 Long codigo = Long.parseLong(linha[0]);
-                String cidadeNome = tratarDadoConforme(linha[10]);
-                String ufSigla = tratarDadoConforme(linha[11]);
+                String cidadeNome = tratarDadoConforme(linha[8]);
+                String ufSigla = tratarDadoConforme(linha[9]);
+
+                if (ufSigla.equals("NÃO INFORMADO") || ufSigla.length() > 2) {
+                    ufSigla = "NI"; 
+                }
 
                 System.out.println("Lendo Ocorrência: " + codigo + " em " + cidadeNome + "/" + ufSigla);
                 
@@ -53,8 +66,20 @@ public class OcorrenciaService {
 
 // 3. Associa a Localidade à Ocorrencia
                 Ocorrencia ocorrencia = new Ocorrencia();
-                ocorrencia.setCodigoOcorrencia(Long.parseLong(linha[0]));
+                ocorrencia.setCodigoOcorrencia(codigo);
                 ocorrencia.setLocalidade(localidade); // Aqui o Hibernate faz a mágica da FK
+
+                ocorrencia.setClassificacao(tratarDadoConforme(linha[5]));
+
+                DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                try {
+                    // Tenta converter o texto da coluna 12 para data
+                    LocalDate data = LocalDate.parse(linha[12].trim(), formatador);
+                    ocorrencia.setData(data);
+                } catch (Exception e) {
+                    // Esse é o try-catch novo e pequeno!
+                    System.out.println("Aviso: Data inválida ou ausente para a ocorrência " + codigo);
+                }
 
 // 4. Salvar a Ocorrencia
                 session.persist(ocorrencia);

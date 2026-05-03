@@ -6,9 +6,9 @@
     <session-factory>
         <!-- Configurações de Conexão -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://localhost:5432/nome_do_seu_banco</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/OcorrenciasAeronauticas</property>
         <property name="connection.username">postgres</property>
-        <property name="connection.password">sua_senha</property>
+        <property name="connection.password">ifpb</property>
 
         <!-- Dialeto do Banco -->
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
@@ -21,6 +21,8 @@
         <property name="hbm2ddl.auto">update</property>
 
         <!-- Mapeamento das classes -->
+        <mapping class="br.edu.faculdade.projeto.model.Localidade"/>
         <mapping class="br.edu.faculdade.projeto.model.Ocorrencia"/>
+        
     </session-factory>
 </hibernate-configuration>
