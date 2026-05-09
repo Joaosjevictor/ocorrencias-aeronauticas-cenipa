@@ -1,6 +1,7 @@
 package br.edu.faculdade.projeto.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -22,6 +23,18 @@ public class Ocorrencia {
     @ManyToOne
     @JoinColumn(name = "id_localidade")
     private Localidade localidade;
+
+    @OneToMany(mappedBy = "ocorrencia", cascade = CascadeType.ALL)
+    private List<Aeronave> aeronaves;
+
+    @OneToMany(mappedBy = "ocorrencia", cascade = CascadeType.ALL)
+    private List<TipoOcorrencia> tipos;
+
+    @OneToMany(mappedBy = "ocorrencia", cascade = CascadeType.ALL)
+    private List<FatorContribuinte> fatores;
+
+    @OneToMany(mappedBy = "ocorrencia", cascade = CascadeType.ALL)
+    private List<Recomendacao> recomendacoes;
 
     public Ocorrencia() {
     }
@@ -59,5 +72,42 @@ public class Ocorrencia {
     }
 
 
+    public List<Aeronave> getAeronaves() {
+        return aeronaves;
+    }
+
+    public void setAeronaves(List<Aeronave> aeronaves) {
+        this.aeronaves = aeronaves;
+    }
+
+    public List<TipoOcorrencia> getTipos() {
+        return tipos;
+    }
+
+    public void setTipos(List<TipoOcorrencia> tipos) {
+        this.tipos = tipos;
+    }
+
+    public List<FatorContribuinte> getFatores() {
+        return fatores;
+    }
+
+    public void setFatores(List<FatorContribuinte> fatores) {
+        this.fatores = fatores;
+    }
+
+    public List<Recomendacao> getRecomendacoes() {
+        return recomendacoes;
+    }
+
+    public void setRecomendacoes(List<Recomendacao> recomendacoes) {
+        this.recomendacoes = recomendacoes;
+    }
+    
+
 }
+
+
+
+
     

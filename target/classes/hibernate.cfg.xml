@@ -23,6 +23,12 @@
         <!-- Mapeamento das classes -->
         <mapping class="br.edu.faculdade.projeto.model.Localidade"/>
         <mapping class="br.edu.faculdade.projeto.model.Ocorrencia"/>
+        <mapping class="br.edu.faculdade.projeto.model.Aeronave"/>
+        <mapping class="br.edu.faculdade.projeto.model.TipoOcorrencia"/>
+        <mapping class="br.edu.faculdade.projeto.model.FatorContribuinte"/>
+        <mapping class="br.edu.faculdade.projeto.model.Recomendacao"/>
+
+
         
     </session-factory>
 </hibernate-configuration>
