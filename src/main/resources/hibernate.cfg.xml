@@ -10,17 +10,12 @@
         <property name="connection.username">postgres</property>
         <property name="connection.password">ifpb</property>
 
-        <!-- Dialeto do Banco -->
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
-        <!-- Mostra o SQL no console -->
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
-
-        <!-- Atualiza o esquema automaticamente -->
         <property name="hbm2ddl.auto">update</property>
 
-        <!-- Mapeamento das classes -->
         <mapping class="br.edu.faculdade.projeto.model.Localidade"/>
         <mapping class="br.edu.faculdade.projeto.model.Ocorrencia"/>
         <mapping class="br.edu.faculdade.projeto.model.Aeronave"/>

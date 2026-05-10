@@ -36,40 +36,30 @@ public class AeronaveService {
             int count = 0; 
 
             while ((linha = reader.readNext()) != null) {
-                // Pula o cabeçalho, caso o OpenCSV se perca
                 if (linha[0].contains("codigo")) continue;
 
                 Long codigoOcorrencia = Long.parseLong(linha[0]);
-
-                // A MÁGICA AQUI: Busca a ocorrência que já existe no banco de dados
                 Ocorrencia ocorrencia = session.get(Ocorrencia.class, codigoOcorrencia);
 
-                // Só salva a aeronave se a ocorrência existir (para não quebrar a Foreign Key)
                 if (ocorrencia != null) {
                     Aeronave aeronave = new Aeronave();
                     
-                    // IMPORTANTE: Olhe no seu aeronave.csv para confirmar essas colunas!
                     aeronave.setMatricula(tratarDadoConforme(linha[1]));
                     aeronave.setEquipamento(tratarDadoConforme(linha[2])); 
                     aeronave.setFabricante(tratarDadoConforme(linha[3]));  
                     aeronave.setModelo(tratarDadoConforme(linha[4]));      
-                    
-                    // A fase de operação costuma ficar lá pro final da planilha
                     aeronave.setFaseOperacao(tratarDadoConforme(linha[16])); 
 
-                    // Liga a aeronave à ocorrência
                     aeronave.setOcorrencia(ocorrencia);
 
                     session.persist(aeronave);
                     count++;
                     
-                    // Imprime a cada 500 registros para não "inundar" seu terminal
                     if (count % 500 == 0) {
                         System.out.println("Já salvamos " + count + " aeronaves...");
                     }
 
                 } else {
-                    // Algumas aeronaves no CSV podem não ter a ocorrência correspondente (falha nos dados do governo)
                     System.out.println("Aviso: Ocorrência " + codigoOcorrencia + " não encontrada no banco. Aeronave ignorada.");
                 }
             }

@@ -10,7 +10,6 @@ public class FatorContribuinte {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Aumentei o limite para 200 porque os nomes dos fatores podem ser longos
     @Column(name = "nome_fator", length = 200)
     private String nome;
 

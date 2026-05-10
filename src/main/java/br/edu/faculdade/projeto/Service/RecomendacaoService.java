@@ -42,7 +42,6 @@ public class RecomendacaoService {
                 if (ocorrencia != null) {
                     Recomendacao recomendacao = new Recomendacao();
                     
-                    // Verifique as colunas no seu CSV!
                     recomendacao.setNumero(tratarDadoConforme(linha[1])); 
                     recomendacao.setConteudo(tratarDadoConforme(linha[5]));  
                     recomendacao.setStatus(tratarDadoConforme(linha[6]));  

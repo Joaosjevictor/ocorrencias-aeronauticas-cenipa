@@ -61,27 +61,23 @@ public class OcorrenciaService {
                 localidade = new Localidade();
                 localidade.setCidade(cidadeNome);
                 localidade.setUf(ufSigla);
-                localRepo.salvar(localidade); // Cria apenas se não existir
+                localRepo.salvar(localidade); 
                 }
 
-// 3. Associa a Localidade à Ocorrencia
                 Ocorrencia ocorrencia = new Ocorrencia();
                 ocorrencia.setCodigoOcorrencia(codigo);
-                ocorrencia.setLocalidade(localidade); // Aqui o Hibernate faz a mágica da FK
+                ocorrencia.setLocalidade(localidade);
 
                 ocorrencia.setClassificacao(tratarDadoConforme(linha[5]));
 
                 DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 try {
-                    // Tenta converter o texto da coluna 12 para data
                     LocalDate data = LocalDate.parse(linha[12].trim(), formatador);
                     ocorrencia.setData(data);
                 } catch (Exception e) {
-                    // Esse é o try-catch novo e pequeno!
                     System.out.println("Aviso: Data inválida ou ausente para a ocorrência " + codigo);
                 }
-
-// 4. Salvar a Ocorrencia
+                
                 session.persist(ocorrencia);
             }
             

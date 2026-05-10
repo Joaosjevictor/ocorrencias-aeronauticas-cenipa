@@ -12,7 +12,7 @@ public class Main {
         System.out.println("Iniciando a importação de dados do CENIPA...");
 
         
-       /*   OcorrenciaService service = new OcorrenciaService();
+        OcorrenciaService service = new OcorrenciaService();
         String caminhoArquivo = "src/main/resources/ocorrencia.csv";
         service.processarArquivoOcorrencia(caminhoArquivo);
 
@@ -27,7 +27,7 @@ public class Main {
         FatorContribuinteService fatorService = new FatorContribuinteService();
         String caminhoFator = "src/main/resources/fator_contribuinte.csv";
         System.out.println("\n--- Importando Fatores Contribuintes ---");
-        fatorService.processarArquivoFator(caminhoFator); */
+        fatorService.processarArquivoFator(caminhoFator);
 
         RecomendacaoService recomendacaoService = new RecomendacaoService();
         String caminhoRecomendacao = "src/main/resources/recomendacao.csv";
@@ -35,7 +35,6 @@ public class Main {
         recomendacaoService.processarArquivoRecomendacao(caminhoRecomendacao);
         
 
-        // Fecha a fábrica de conexões do Hibernate para o programa poder encerrar
         HibernateUtil.shutdown();
         
         System.out.println("Processo finalizado com sucesso!");
